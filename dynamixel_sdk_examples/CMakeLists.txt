@@ -10,37 +10,121 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+################################################################################
 # Find dependencies
+################################################################################
 find_package(ament_cmake REQUIRED)
 find_package(dynamixel_sdk REQUIRED)
 find_package(dynamixel_sdk_custom_interfaces REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 include_directories(include)
 
 # Build
-add_executable(read_write_node src/read_write_node.cpp)
-ament_target_dependencies(read_write_node
+################################################################################
+# Torque Control Mode
+################################################################################
+add_executable(read_write_current_node src/read_write_current_node.cpp)
+ament_target_dependencies(read_write_current_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+)
+add_executable(pub_current_node src/pub_current_node.cpp)
+ament_target_dependencies(pub_current_node
   dynamixel_sdk_custom_interfaces
   dynamixel_sdk
   rclcpp
 )
 
+################################################################################
+# Velocity Control Mode
+################################################################################
+add_executable(read_write_velocity_node src/read_write_velocity_node.cpp)
+ament_target_dependencies(read_write_velocity_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+  geometry_msgs
+)
+add_executable(pub_velocity_node src/pub_velocity_node.cpp)
+ament_target_dependencies(pub_velocity_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+)
+
+################################################################################
+# Position Control Mode
+################################################################################
+add_executable(read_write_position_node src/read_write_position_node.cpp)
+ament_target_dependencies(read_write_position_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+)
+add_executable(pub_position_node src/pub_position_node.cpp)
+ament_target_dependencies(pub_position_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+)
+
+################################################################################
+# Current-based Position Control Mode
+################################################################################
+add_executable(read_write_current_pos_v1_node src/read_write_current_pos_v1_node.cpp)
+ament_target_dependencies(read_write_current_pos_v1_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+)
+add_executable(pub_current_pos_v1_node src/pub_current_pos_v1_node.cpp)
+ament_target_dependencies(pub_current_pos_v1_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+)
+
+################################################################################
+# Current-based Position Control Mode ver2
+################################################################################
+add_executable(read_write_current_pos_v2_node src/read_write_current_pos_v2_node.cpp)
+ament_target_dependencies(read_write_current_pos_v2_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+)
+add_executable(pub_current_pos_v2_node src/pub_current_pos_v2_node.cpp)
+ament_target_dependencies(pub_current_pos_v2_node
+  dynamixel_sdk_custom_interfaces
+  dynamixel_sdk
+  rclcpp
+)
+
+################################################################################
 # Install
+################################################################################
 install(TARGETS
-  read_write_node
+  read_write_current_node
+  pub_current_node
+  read_write_velocity_node
+  pub_velocity_node
+  read_write_position_node
+  pub_position_node
+  read_write_current_pos_v1_node
+  pub_current_pos_v1_node
+  read_write_current_pos_v2_node
+  pub_current_pos_v2_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
+################################################################################
 # Test
+################################################################################
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 
