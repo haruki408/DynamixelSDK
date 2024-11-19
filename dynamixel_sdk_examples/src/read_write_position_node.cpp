@@ -56,7 +56,7 @@
 #define ADDR_PRESENT_POSITION			132
 
 /* Motors ID */
-#define DXL1_ID                         1
+#define DXL1_ID                         23
 #define DXL2_ID                         2
 #define DXL3_ID                         3
 #define DXL4_ID                         4

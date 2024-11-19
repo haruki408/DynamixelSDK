@@ -40,7 +40,7 @@ void JointPubNode::publishData()
   
   // position range: 0 - 4095 
   msg.position = positions_3_[current_position_index_];
-  msg.id = 1;    
+  msg.id = 23;    
 
   RCLCPP_INFO(get_logger(), "Publishing ID: %d Position: %d", msg.id, msg.position);
 
